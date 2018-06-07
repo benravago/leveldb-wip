@@ -1,0 +1,19 @@
+leveldb/db/DbMain.java:63:    // TODO: Consumer<Throwable> checkStatus;
+leveldb/db/DbMain.java:334:            // TODO: use &reporter in log file recovery
+leveldb/db/DbMain.java:755:                    // TODO: check stats and set value as appropriate
+leveldb/db/DbMain.java:816:    // TODO: // void DBImpl::MaybeIgnoreError(Status* s) const {
+leveldb/db/DbImpl.java:36:        xCompactMemTable(); // TODO(sanjay): Skip if memtable does not overlap
+leveldb/db/TableCache.java:102:        // TODO: also evict blockCache of related blocks
+leveldb/db/Versions.java:346:        // TODO(opt): use concatenating iterator for level-0 if there is no overlap
+leveldb/db/Versions.java:472:    // TODO: VersionSet.Builder.close()
+leveldb/db/TwoLevelIterator.java:68:    // TODO: handle close(); pass to current cursor
+leveldb/db/Repair.java:404://       // TODO(opt): separate out into multiple levels
+
+leveldb/db/LogReader.java:24:    // TODO: use notify() to handle Status/IOException's
+leveldb/db/LogWriter.java:22:    // TODO: use notify() to handle Status/IOException's
+
+leveldb/db/Debug.java:24:    static String string(Version v) { // TODO:
+leveldb/db/Debug.java:55:    static String string(VersionEdit v) { // TODO:
+
+leveldb/db/VersionSet.java:632:    long approximateOffsetOf(Version v, InternalKey k1) { // TODO: for DbUtil.getApproximateSize(Slice start, Slice limit)
+leveldb/db/Version.java:89:    boolean recordReadSample(InternalKey key) { // TODO: for DbUtil.newIterator()

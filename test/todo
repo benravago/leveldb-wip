@@ -1,0 +1,26 @@
+
+1. improve error reporting with 'Status' exception + Consumer<Exception> checkException
+
+2. improve try/finally locking semantics with MutexLock 
+
+3. clean up unused (option) fields in DbMain
+   review DbMain open/get/put/delete/write codepaths; mark TODO's
+   look into usint MutexLock for 'mutex'
+
+4. review Version/VersionSet
+
+5. convert class destructors to close() methods
+
+6. review file life cycle -> open/close in constructor/desctructor 
+
+7. convert DbMain.mutex to MutexLock() to reflect use of 'MutexLock l(&mutex_);'
+
+
+*. start work on CompactRange/Compaction
+
+
+    /*
+     * Note: because the Block cursor userKey points to a mutable workarea
+     *       the final user of the MergingIterator getKey() must do a Struct.copy(key)
+     *       to preserve the key data
+     */
