@@ -86,7 +86,10 @@ class Block implements Closeable, BinarySearch.Array<InternalKey> {
             }
             @Override
             public Element next() {
-                if (!hasNext()) throw new NoSuchElementException();
+                if (hasNext()) return item();
+                throw new NoSuchElementException();
+            }
+            Element item() {
                 element.sharedBytes = d.getVarint32();
                 element.unsharedBytes = d.getVarint32();
                 element.valueLength = d.getVarint32();
@@ -210,8 +213,11 @@ class Block implements Closeable, BinarySearch.Array<InternalKey> {
             }
             @Override
             public Index next() {
-                if (!hasNext()) throw new NoSuchElementException();
-                d.position(-((1+numRestarts-i)*sizeof_uint32_t)); i++;
+                if (hasNext()) return item(i++);
+                throw new NoSuchElementException();
+            }
+            Index item(int i) {
+                d.position(-((1+numRestarts-i)*sizeof_uint32_t));
                 int offset = d.getFixed32(); // restart[n]
                 d.position(offset);
                 int z = d.getVarint32(); // sharedBytes

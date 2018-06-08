@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 import bsd.leveldb.db.DbFactory;
 import bsd.leveldb.db.FilterPolicy;
 
+@bsd.LICENSE
 /**
  * A DB is a persistent ordered map from keys to values.
  *
