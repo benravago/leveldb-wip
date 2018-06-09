@@ -189,8 +189,8 @@ class Batch {
         }
         int found = 0;
         Slice key, value;
-        @Override public Object getKey() { return key; }
-        @Override public Object getValue() { return value; }
+        @Override public Slice getKey() { return key; }
+        @Override public Slice getValue() { return value; }
       };
     }
 }

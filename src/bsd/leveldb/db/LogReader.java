@@ -20,12 +20,16 @@ import static bsd.leveldb.io.ByteDecoder.*;
 class LogReader implements Iterable<Slice>, Iterator<Slice>, Closeable {
 
     InputStream in;
-    Consumer<Throwable> notify = LogFormat.notify;
-    // TODO: use notify() to handle Status/IOException's
+    Consumer<Throwable> notify;
+
+    LogReader(InputStream in, Consumer<Throwable> notify) {
+        this.in = in; this.notify = notify;
+    }
 
     LogReader(InputStream in) {
-        this.in = in;
+        this(in, LogFormat.notify);
     }
+
     LogReader onError(Consumer<Throwable> exit) {
         notify = exit; return this;
     }
@@ -70,10 +74,11 @@ class LogReader implements Iterable<Slice>, Iterator<Slice>, Closeable {
         }
         if (type == kFullType || type == kLastType) {
             try { return readSpan(); }
-            catch (IOException e) { throw status(IOError,e); }
+            catch (IOException e) { notify.accept(status(IOError,e)); }
         } else {
-            throw new IllegalStateException("unexpected type "+type);
+            notify.accept(new IllegalStateException("unexpected type "+type));
         }
+        return false;
     }
 
     @Override

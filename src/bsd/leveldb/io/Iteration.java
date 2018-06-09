@@ -2,6 +2,8 @@ package bsd.leveldb.io;
 
 import java.util.Iterator;
 import java.util.Enumeration;
+import java.util.NoSuchElementException;
+import java.util.function.Supplier;
 
 public interface Iteration {
 
@@ -29,6 +31,28 @@ public interface Iteration {
             @Override public boolean hasNext() { return i < array.length; }
             @Override public T next() { return array[i++]; }
             int i = 0;
+        };
+    }
+
+    static <T> Iterator<T> from(Supplier<T> src) {
+        return new Iterator<T>() {
+            @Override
+            public boolean hasNext() {
+                if (next == null) {
+                    next = src.get();
+                }
+                return next != null;
+            }
+            @Override
+            public T next() {
+                if (hasNext()) {
+                    T item = next;
+                    next = null;
+                    return item;
+                }
+                throw new NoSuchElementException();
+            }
+            private T next = null;
         };
     }
 

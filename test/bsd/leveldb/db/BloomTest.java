@@ -7,16 +7,17 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import bsd.leveldb.Slice;
-import bsd.leveldb.io.ByteEncoder;
+import static bsd.leveldb.io.ByteEncoder.*;
+
 import static bsd.leveldb.db.TestUtil.*;
 
 public class BloomTest {
 
-    static final int kVerbose = 1;
+    static final int kVerbose = Integer.getInteger("bloom_test.verbose",1);
 
     static Slice key(int i) {
         byte[] buffer = new byte[4];
-        ByteEncoder.encodeFixed32(i, buffer, 0);
+        encodeFixed32(i, buffer, 0);
         return new Slice(buffer);
     }
 

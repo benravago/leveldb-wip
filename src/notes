@@ -1,0 +1,10 @@
+
+1. The db should eventually have a java.util.NavigableMap interface rather than the bi-directional Iterator
+
+   DB {
+     NavigableMap<Slice,Slice> map();
+   }
+
+   This could be where the skiplist.cc code will be helpful.
+   Might also need to make the log records bidirectional.
+
