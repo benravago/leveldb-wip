@@ -15,6 +15,7 @@ import bsd.leveldb.io.Info;
 import bsd.leveldb.io.MutexLock;
 import bsd.leveldb.db.Versions.Compaction;
 import static bsd.leveldb.db.DbFormat.*;
+import static bsd.leveldb.db.DbUtil.*;
 import static bsd.leveldb.db.FileName.*;
 import static bsd.leveldb.Status.Code.*;
 import static bsd.leveldb.db.Struct.*;
@@ -193,9 +194,9 @@ class DbImpl extends DbMain {
             }
             Info.log("Manual compaction at level-%d from %s .. %s; will stop at %s",
                      m.level,
-                    (m.begin != null ? Debug.string(m.begin) : "(begin)"),
-                    (m.end != null ? Debug.string(m.end) : "(end)"),
-                    (m.done ? "(end)" : Debug.string(manualEnd)));
+                    (m.begin != null ? string(m.begin) : "(begin)"),
+                    (m.end != null ? string(m.end) : "(end)"),
+                    (m.done ? "(end)" : string(manualEnd)));
         } else {
             c = Versions.pickCompaction(versions);
         }

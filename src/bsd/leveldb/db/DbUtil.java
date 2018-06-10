@@ -14,11 +14,10 @@ import bsd.leveldb.Cursor;
 import bsd.leveldb.Options;
 import bsd.leveldb.Status;
 import bsd.leveldb.ReadOptions;
+import bsd.leveldb.io.Escape;
 import bsd.leveldb.io.MutexLock;
 import static bsd.leveldb.db.DbFormat.*;
 import static bsd.leveldb.db.FileName.*;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 class DbUtil {
 
@@ -173,7 +172,7 @@ class DbUtil {
     }
 
     static String getSSTables(DbMain db) {
-        return Debug.string(db.versions.current());
+        return null; // TODO: Debug.string(db.versions.current());
     }
 
     static String getCompactionStats(DbImpl db) {
@@ -207,6 +206,25 @@ class DbUtil {
             totalUsage += db.immuTable.approximateMemoryUsage();
         }
         return Long.toString(totalUsage);
+    }
+
+    static String string(InternalKey k) {
+        return String.format("%s @ %d : %d",
+            string(k.userKey),
+            sequenceNumber(k),
+            valueType(k));
+    }
+
+    static String string(Slice s) {
+        String c = Escape.chars(s.data,s.offset,s.length).toString();
+        if (c.contains("\"")) {
+            c = c.replaceAll("\"","`22`").replaceAll("``","`");
+        }
+        return "\""+c+"\"";
+    }
+
+    static String string(Version v) { // TODO:
+        return null;
     }
 
 }

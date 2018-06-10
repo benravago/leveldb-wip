@@ -2,7 +2,7 @@ package bsd.leveldb.db;
 
 import bsd.leveldb.Slice;
 import bsd.leveldb.io.ByteDecoder;
-import static bsd.leveldb.db.LogFile.*;
+import static bsd.leveldb.db.Dbf.*;
 import static bsd.leveldb.db.VersionEdit.*;
 
 public class Manifest {

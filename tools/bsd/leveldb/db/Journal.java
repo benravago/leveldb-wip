@@ -3,7 +3,7 @@ package bsd.leveldb.db;
 import java.util.Map.Entry;
 
 import bsd.leveldb.Slice;
-import static bsd.leveldb.db.LogFile.*;
+import static bsd.leveldb.db.Dbf.*;
 
 public class Journal {
     public static void main(String[] args) throws Exception {

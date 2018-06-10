@@ -35,17 +35,6 @@ public class SSTable {
         data();
     }
 
-    void check() throws IOException {
-        sst.readFooter((int)sst.file.length());
-        byte[] buf = sst.readFully(sst.file,sst.indexOffset,sst.indexSize);
-        // System.out.println("buf "+0+' '+buf.length+' '+sst.indexSize);
-        Slice dec = SnappyDecoder.decode(buf,0,sst.indexSize);
-        // System.out.println("dec "+dec.offset+' '+dec.length);
-        Slice enc = SnappyEncoder.encode(dec);
-        // System.out.println("enc "+enc.offset+' '+enc.length);
-        assert(enc.length == buf.length);
-    }
-
     SeekableFileInputStream input(String fn) throws IOException {
         return new SeekableFileInputStream(Paths.get(fn));
     }
@@ -115,8 +104,9 @@ public class SSTable {
             Block k = sst.blockReader(i.dataOffset,i.dataSize,false);
             for (Block.Element e : Iteration.of(k.elements())) {
                 m++;
-                CharSequence cs = Escape.chars(k.contents.data,e.deltaOffset,e.unsharedBytes-8);
-                System.out.println("  "+m+". "+e.sharedBytes+' '+(e.unsharedBytes-8)+" \""+cs+"\" "
+                int deltaKeySize = e.unsharedBytes - kSequenceNumberSize;
+                CharSequence cs = Escape.chars(k.contents.data,e.deltaOffset,deltaKeySize);
+                System.out.println("  "+m+". "+e.sharedBytes+' '+deltaKeySize+" \""+cs+"\" "
                                               +x(e.valueLength)+" @ "+x(e.deltaOffset));
             }
             snap(out,0,k.contents.data,k.contents.offset,k.contents.length);
@@ -126,7 +116,7 @@ public class SSTable {
     static String x(int i) { return "0"+Integer.toHexString(i); }
 
     static String key(byte[] b, int off, int len) {
-        return LogFile.text(parseInternalKey(b,off,len));
+        return Dbf.text(parseInternalKey(b,off,len));
     }
 
 }
