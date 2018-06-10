@@ -15,7 +15,7 @@ public interface Escape {
         boolean d = true;
         len += off;
         for (int i = off; i < len; i++) {
-            char c = (char)b[i];
+            char c = (char)(b[i] & 0x0ff);
             if (c < 0x20 || c > 0x7E || c == tic) {
                 if (d) s.append(tic);
                 s.append(hex[c>>>4])
@@ -37,7 +37,7 @@ public interface Escape {
         StringBuilder str = new StringBuilder();
         len += off;
         for (int i = off; i < len; i++) {
-            char c = (char)b[i];
+            char c = (char)(b[i] & 0x0ff);
             if (c >= ' ' && c <= '~') {
                 str.append(c);
             } else {
